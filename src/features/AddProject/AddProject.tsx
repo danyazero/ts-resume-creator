@@ -1,9 +1,9 @@
-import {FC, useEffect, useState} from 'react';
-import st from "./AddProject.module.css"
-import {SubmitButton} from "../../shared/SubmitButton/SubmitButton"
-import {useForm} from "react-hook-form";
-import {AddLinks} from "../addLinks/AddLinks.tsx";
+import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {AddLinks} from "../../shared/addLinks/AddLinks.tsx";
 import {ProjectCard} from "../../entities/ProjectCard/ProjectCard.tsx";
+import {Form} from "../../entities/Form/Form.tsx";
+import {changePosition, setProjectData, stepType} from "../../App/Redux/formsReducer.ts";
+import {useDispatch} from "react-redux";
 
 export type projectDataType = {
     name: string,
@@ -14,55 +14,54 @@ export type projectDataType = {
 }
 
 export type AddProjectPropsType = {
-    getData?(data: projectDataType[]): void
+    step: stepType
 }
 
 export type linkType = {name: string, href: string}
 export const AddProject: FC<AddProjectPropsType> = (props) => {
-    const [projectData, setProjectData] = useState<projectDataType[]>([])
+    const [data, setData] = useState<projectDataType[]>([])
     const [projectLinks, setProjectLinks] = useState<linkType[]>([])
-    const {register, handleSubmit, resetField} = useForm();
+    const [header, setHeader] = useState("")
+
+    const dispatch = useDispatch()
+
 
     function getLinks(data: linkType[]){
         setProjectLinks(data)
     }
 
-    const onSubmit = (data: any) => {
-        data.links = projectLinks
-        setProjectData(prevState => [...prevState, data])
-        
-        resetField('name')
-        resetField('start_date')
-        resetField('finish_date')
-        resetField('caption')
+    function nextPosition(){
+        dispatch(changePosition(+1))
+        dispatch(setProjectData({header, array: data}))
+    }
+
+    function getFormData(_data: projectDataType){
+        _data.links = projectLinks
+        _data.start_date = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short'}).format(new Date(_data.start_date));
+        _data.finish_date = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short'}).format(new Date(_data.finish_date));
+        setData(prevState => [...prevState, _data])
         setProjectLinks([])
     }
-    useEffect(() => {
-        console.log(projectLinks)
-    }, [projectLinks])
 
     useEffect(() => {
-        // if(props.getData) props.getData(projectData);
-        console.info(projectData)
-    }, [projectData])
+        console.info(data)
+    }, [data])
 
-    const projects = projectData.map((element, index) => <ProjectCard key={"project_" + index} name={element.name} start_date={element.start_date} finish_date={element.finish_date} caption={element.caption} links={element.links}/>)
+    const projects = data.map((element, index) => <ProjectCard key={"project_" + index} name={element.name} start_date={element.start_date} finish_date={element.finish_date} caption={element.caption} links={element.links}/>)
 
     return (
         <>
 
-            {projects}
-            <form className={st.addProject} onSubmit={handleSubmit(onSubmit)}>
-                <input placeholder={"Enter name"} {...register("name", {required: true})}/>
-                <input type='date' placeholder={"Enter start date"} {...register("start_date", {required: true})}/>
-                <input type='date' placeholder={"Enter finish date"} {...register("finish_date", {required: true})}/>
-                <input placeholder={"Enter caption"} {...register("caption", {required: false})}/>
-                <AddLinks links={projectLinks} getData={getLinks}/>
-                <SubmitButton name={"Add"}/>
-            </form>
-            <div>
-                <SubmitButton onClick={() => console.log("next button")} name={"Next"}/>
-            </div>
+
+                <div>
+                    <input placeholder={"Enter Header"} value={header} onChange={(event: ChangeEvent<HTMLInputElement>) => setHeader(event.target.value)} required={true}/>
+
+                    {projects}
+
+                    <Form step={props.step} getData={getFormData} next={nextPosition} prev={() => {console.log("prev button")}}>
+                        <AddLinks links={projectLinks} getData={getLinks}/>
+                    </Form>
+                </div>
 
         </>
     )

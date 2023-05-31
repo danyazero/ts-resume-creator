@@ -1,6 +1,6 @@
 import {ChangeEvent, FC, useEffect, useState} from 'react';
 import st from './AddLinks.module.css'
-import {SubmitButton} from "../../shared/SubmitButton/SubmitButton";
+import {SubmitButton} from "../SubmitButton/SubmitButton.tsx";
 
 export type AddLinksPropsType = {
     links: linkType[]
@@ -13,7 +13,7 @@ export const AddLinks: FC<AddLinksPropsType> = (props) => {
     const [link, setLink] = useState("")
 
     const onSubmit = () => {
-        if(props.getData) props.getData( [...props.links, {name, href: link}]);
+        if(props.getData && (name.length > 0 && link.length > 0)) props.getData( [...props.links, {name, href: link}]);
         setName("")
         setLink("")
     }

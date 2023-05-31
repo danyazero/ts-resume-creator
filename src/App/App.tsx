@@ -3,7 +3,7 @@ import PDFView from "../PdfConstructor/PDFView";
 import { useForm } from "react-hook-form";
 import {useState} from "react";
 import {InputField} from "../shared/inputField/inputField";
-import {Step} from "../entities/step/Step";
+import {Step} from "../entities/Step/Step";
 import {PDFViewContainer} from "../PdfConstructor/PDFViewContainer";
 import {FillStepsContainer} from "../widgets/FillSteps/FillStepsContainer";
 

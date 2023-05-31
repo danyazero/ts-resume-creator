@@ -1,5 +1,6 @@
 import {Canvas, Document, Font, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
-import {linkType} from "../features/addLinks/AddLinks";
+import {linkType} from "../shared/addLinks/AddLinks";
+import {projectDataType} from "../features/AddProject/AddProject.tsx";
 
 export type PDFDocumentProps = {
     first_name: string,
@@ -9,7 +10,13 @@ export type PDFDocumentProps = {
     country: string,
     phone: string,
     email: string,
-    links: linkType[]
+    links: linkType[],
+    projects: projectsType
+}
+
+export type projectsType = {
+    header: string,
+    array: projectDataType[]
 }
 
 function PDFView(props: {forms: PDFDocumentProps}) {
@@ -92,6 +99,25 @@ function PDFView(props: {forms: PDFDocumentProps}) {
         }
     });
 
+    function mapLinks(links: linkType[]){
+        return links.map((element, index) => <Link key={"resume_link_" + index} style={styles.link} src={element.href}>{element.name}</Link>)
+    }
+
+    const projects = props.forms.projects.array.map((element, index) => {
+        return(
+            <View>
+                <Text style={styles.sectionName}>{element.name}</Text>
+                <Text style={styles.data}>{element.start_date} - {element.finish_date}</Text>
+                <Text style={styles.caption}>{element.caption}</Text>
+                <Text style={styles.data}>Stack: React, Redux Toolkit, Axios, TypeScript</Text>
+                <View style={styles.projectLinks}>
+                    {mapLinks(element.links)}
+                </View>
+            </View>
+        )
+    })
+
+
     const links = props.forms.links.map((element, index) => <Link key={"user_link_" + index} style={styles.link} src={element.href}>{element.name}</Link>)
 
     function lineGenerator(xLength: number, yLength: number, depth: number, opacity: number){
@@ -155,17 +181,8 @@ function PDFView(props: {forms: PDFDocumentProps}) {
                                 <Text style={styles.blockName}>Projects</Text>
                                 <Canvas paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                <View>
-                                    <Text style={styles.sectionName}>Speed typing</Text>
-                                    <Text style={styles.data}>Dec 2023 - Present</Text>
-                                    <Text style={styles.caption}>A web application with quizzes that can have multiple-choice answers
-                                        and an unlimited number of questions</Text>
-                                    <Text style={styles.data}>Stack: React, Redux Toolkit, Axios, TypeScript</Text>
-                                    <View style={styles.projectLinks}>
-                                        <Link style={styles.link} src={"https://github.com/danyazero/ts-keyboard-trainer"}>GitHub</Link>
-                                        <Link style={styles.link} src={"https://zerotest.netlify.app/"}>Deployed</Link>
-                                    </View>
-                                </View>
+                                {projects}
+
                             </View>
 
                         </View>

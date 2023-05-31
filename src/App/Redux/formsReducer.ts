@@ -1,8 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {PDFDocumentProps} from "../../PdfConstructor/PDFView";
-import {linkType} from "../../features/addLinks/AddLinks";
+import {PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
+import {linkType} from "../../shared/addLinks/AddLinks";
+import {projectDataType} from "../../features/AddProject/AddProject.tsx";
 
 export type formsSliceState = {
+    position: number,
     forms: stepType[],
     resumeData: PDFDocumentProps
 }
@@ -14,40 +16,41 @@ export type stepType = {
 
 export type inputFieldType = {
     name: string,
+    type: string,
     placeholder: string,
     required: boolean
 }
 
 const initialState: formsSliceState = {
+    position: 0,
     forms: [
         {
             header: "Header Info", inputs: [
-                {name: "first_name", placeholder: "Enter firstname", required: true},
-                {name: "last_name", placeholder: "Enter lastname", required: true},
-                {name: "vacancy", placeholder: "Enter vacancy", required: false}
+                {name: "first_name", type: "text", placeholder: "Enter firstname", required: true},
+                {name: "last_name", type: "text", placeholder: "Enter lastname", required: true},
+                {name: "vacancy", type: "text", placeholder: "Enter vacancy", required: false}
             ]
         },
         {
             header: "Location Info", inputs: [
-                {name: "city", placeholder: "Enter city", required: true},
-                {name: "country", placeholder: "Enter country", required: true},
+                {name: "city", type: "text", placeholder: "Enter city", required: true},
+                {name: "country", type: "text", placeholder: "Enter country", required: true},
             ]
         },
         {
             header: "Contact Info", inputs: [
-                {name: "phone", placeholder: "Enter phone", required: true},
-                {name: "email", placeholder: "Enter email", required: true},
+                {name: "phone", type: "text", placeholder: "Enter phone", required: true},
+                {name: "email", type: "text", placeholder: "Enter email", required: true},
             ]
         },
-        // {
-        //     header: "Projects", inputs: [
-        //         {name: "project_name", placeholder: "Enter name", required: true},
-        //         {name: "start_date", placeholder: "Enter start date", required: true},
-        //         {name: "finish_date", placeholder: "Enter finish date", required: true},
-        //         {name: "caption", placeholder: "Enter caption", required: false},
-        //         {name: ""}
-        //     ]
-        // }
+        {
+            header: "Projects", inputs: [
+                {name: "name", type: "text", placeholder: "Enter name", required: true},
+                {name: "start_date", type: "date", placeholder: "Enter start date", required: true},
+                {name: "finish_date", type: "date", placeholder: "Enter finish date", required: true},
+                {name: "caption", type: "text", placeholder: "Enter caption", required: false},
+            ]
+        }
     ],
     resumeData: {
         first_name: "",
@@ -57,7 +60,12 @@ const initialState: formsSliceState = {
         country: "",
         phone: "",
         email: "",
-        links: []
+        links: [],
+        projects: {
+            header: "Projects",
+            array: [
+            ]
+        }
     }
 }
 
@@ -75,6 +83,16 @@ export const formsReducer = createSlice({
 
                 return state;
             },
+            changePosition(state: formsSliceState, actions: PayloadAction<number>){
+                state.position += actions.payload
+
+                return state;
+            },
+            setProjectData(state: formsSliceState, actions: PayloadAction<projectsType>){
+                state.resumeData.projects = actions.payload
+
+                return state;
+            },
             setLinks(state: formsSliceState,
                      actions: PayloadAction<linkType[]>){
                 state.resumeData.links = actions.payload
@@ -85,4 +103,4 @@ export const formsReducer = createSlice({
     }
 )
 
-export const {setResumeData, setLinks} = formsReducer.actions
+export const {setResumeData, changePosition, setProjectData, setLinks} = formsReducer.actions
