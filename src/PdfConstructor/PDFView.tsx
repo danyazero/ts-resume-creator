@@ -1,6 +1,8 @@
-import {Canvas, Document, Font, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
-import {linkType} from "../shared/addLinks/AddLinks";
+import {Canvas, Document, Font, Image, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
+import {linkType} from "../entities/addLinks/AddLinks";
 import {projectDataType} from "../features/AddProject/AddProject.tsx";
+import {levels} from "../entities/AddLanguage/AddLanguage.tsx";
+import {educationDataType} from "../features/AddEducation/AddEducation.tsx";
 
 export type PDFDocumentProps = {
     first_name: string,
@@ -11,7 +13,11 @@ export type PDFDocumentProps = {
     phone: string,
     email: string,
     links: linkType[],
+    langs: { lang: string, level: levels }[]
+    stack: string[],
     projects: projectsType
+    photo: any,
+    education: educationDataType[]
 }
 
 export type projectsType = {
@@ -19,31 +25,44 @@ export type projectsType = {
     array: projectDataType[]
 }
 
-function PDFView(props: {forms: PDFDocumentProps}) {
+function PDFView(props: { forms: PDFDocumentProps }) {
 
     const styles = StyleSheet.create({
         page: {
             padding: '25pt 45pt'
+        },
+        photo: {
+            width: "77pt",
+            height: "108pt",
+            objectFit: "cover"
         },
         viewer: {
             margin: 0,
             width: window.innerWidth / 3,
             height: '100%',
         },
+        stack: {
+            paddingTop: "10pt",
+            gap: "10pt"
+        },
         header: {
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
         },
         blockName: {
             fontFamily: "Helvetica-Bold",
             fontSize: "16pt",
             marginBottom: "5pt",
             textTransform: 'uppercase',
-            marginTop: "15pt"
+            marginTop: "15pt",
         },
         sectionName: {
             fontFamily: "Helvetica-Bold",
             fontSize: "10pt",
             marginBottom: "8pt",
             paddingTop: "20pt",
+            maxWidth: "70%",
             textTransform: 'uppercase',
         },
         data: {
@@ -54,7 +73,7 @@ function PDFView(props: {forms: PDFDocumentProps}) {
         },
         projectLinks: {
             flexDirection: "row",
-            gap: "15pt"
+            gap: "8pt"
         },
         caption: {
             marginTop: "10pt",
@@ -66,7 +85,7 @@ function PDFView(props: {forms: PDFDocumentProps}) {
         },
         link: {
             fontFamily: "Helvetica",
-            paddingTop: "15pt",
+            paddingTop: "10pt",
             fontSize: "10pt",
             opacity: 0.7,
         },
@@ -99,17 +118,23 @@ function PDFView(props: {forms: PDFDocumentProps}) {
         }
     });
 
-    function mapLinks(links: linkType[]){
-        return links.map((element, index) => <Link key={"resume_link_" + index} style={styles.link} src={element.href}>{element.name}</Link>)
+    function mapLinks(links: linkType[]) {
+        return links.map((element, index) => <Link key={"resume_link_" + index} style={styles.link}
+                                                   src={element.href}>{element.name}</Link>)
+    }
+
+    function mapStack(stack: string[]) {
+        return stack.map((element, index) => <Text key={"stack_technology_" + index}
+                                                   style={styles.data}> {element}</Text>)
     }
 
     const projects = props.forms.projects.array.map((element, index) => {
-        return(
-            <View>
+        return (
+            <View key={"resume_project_" + index}>
                 <Text style={styles.sectionName}>{element.name}</Text>
                 <Text style={styles.data}>{element.start_date} - {element.finish_date}</Text>
                 <Text style={styles.caption}>{element.caption}</Text>
-                <Text style={styles.data}>Stack: React, Redux Toolkit, Axios, TypeScript</Text>
+                <Text style={styles.data}>Stack: {mapStack(element.stack)}</Text>
                 <View style={styles.projectLinks}>
                     {mapLinks(element.links)}
                 </View>
@@ -117,10 +142,28 @@ function PDFView(props: {forms: PDFDocumentProps}) {
         )
     })
 
+    const educations = props.forms.education.map((element, index) => {
+        return (
+            <View key={"resume_education_" + index}>
+                <View style={styles.header}>
+                    <Text style={styles.sectionName}>{element.name}</Text>
+                    <Text style={styles.data}>{element.city}</Text>
+                </View>
+                <Text style={styles.data}>{element.start_date} - {element.finish_date}</Text>
+                <Text style={styles.caption}>{element.caption}</Text>
+            </View>
+        )
+    })
 
-    const links = props.forms.links.map((element, index) => <Link key={"user_link_" + index} style={styles.link} src={element.href}>{element.name}</Link>)
 
-    function lineGenerator(xLength: number, yLength: number, depth: number, opacity: number){
+    const links = props.forms.links.map((element, index) => <Link key={"user_link_" + index} style={styles.link}
+                                                                  src={element.href}>{element.name}</Link>)
+    const stack = props.forms.stack.map((element, index) => <Text key={"user_technology_" + index}
+                                                                  style={styles.data}>{element}</Text>)
+    const langs = props.forms.langs.map((element, index) => <Text key={"language_" + index}
+                                                                  style={styles.data}>{element.lang} - {element.level}</Text>)
+
+    function lineGenerator(xLength: number, yLength: number, depth: number, opacity: number) {
 
         return (painterObject) => {
             painterObject.save()
@@ -139,11 +182,15 @@ function PDFView(props: {forms: PDFDocumentProps}) {
                     <Page size="A4" style={styles.page}>
 
                         <View style={styles.header}>
-                            <Text style={styles.name}>{props.forms.first_name}</Text>
-                            <Text style={styles.name}>{props.forms.last_name}</Text>
-                            <Text style={styles.vacancy}>{props.forms.vacancy}</Text>
+                            <View>
+                                <Text style={styles.name}>{props.forms.first_name}</Text>
+                                <Text style={styles.name}>{props.forms.last_name}</Text>
+                                <Text style={styles.vacancy}>{props.forms.vacancy}</Text>
+                            </View>
+                            <Image style={styles.photo} src={props.forms.photo}/>
                         </View>
-                        <Canvas style={styles.line} paint={lineGenerator(500, 0, 1, 0.1)}/>
+                        <Canvas style={{width: "100%", height: "2pt", marginTop: '25pt'}}
+                                paint={lineGenerator(500, 0, 1, 0.1)}/>
 
                         <View style={styles.main}>
 
@@ -151,7 +198,8 @@ function PDFView(props: {forms: PDFDocumentProps}) {
 
                                 <View>
                                     <Text style={styles.blockName}>Details</Text>
-                                    <Canvas paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                    <Canvas style={{width: "25pt", height: '2pt'}}
+                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                     <View>
                                         <Text style={styles.sectionName}>address</Text>
@@ -168,22 +216,43 @@ function PDFView(props: {forms: PDFDocumentProps}) {
                                     </View>
 
                                     <Text style={styles.blockName}>Links</Text>
-                                    <Canvas paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                    <Canvas style={{width: "25pt", height: '2pt'}}
+                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                     <View>
                                         {links}
+                                    </View>
+
+                                    <Text style={styles.blockName}>Skills</Text>
+                                    <Canvas style={{width: "25pt", height: '2pt'}}
+                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+
+                                    <View style={styles.stack}>
+                                        {stack}
                                     </View>
                                 </View>
 
                             </View>
 
                             <View style={styles.mainSection}>
-                                <Text style={styles.blockName}>Projects</Text>
-                                <Canvas paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                <Text style={styles.blockName}>{props.forms.projects.header.toUpperCase()}</Text>
+                                <Canvas style={{width: "25pt", height: '2pt'}} paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                 {projects}
 
+                                <Text style={styles.blockName}>Education</Text>
+                                <Canvas style={{width: "25pt", height: '2pt'}} paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+
+                                {educations}
+
+                                <Text style={styles.blockName}>Languages</Text>
+                                <Canvas style={{width: "25pt", height: '2pt'}} paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+
+                                <View style={styles.stack}>
+                                    {langs}
+                                </View>
                             </View>
+
 
                         </View>
                     </Page>

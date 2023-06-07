@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
-import {linkType} from "../../shared/addLinks/AddLinks";
-import {projectDataType} from "../../features/AddProject/AddProject.tsx";
+import {linkType} from "../../entities/addLinks/AddLinks";
+import {levels} from "../../entities/AddLanguage/AddLanguage.tsx";
+import {educationDataType} from "../../features/AddEducation/AddEducation.tsx";
 
 export type formsSliceState = {
     position: number,
@@ -17,6 +18,7 @@ export type stepType = {
 export type inputFieldType = {
     name: string,
     type: string,
+    accept?: string,
     placeholder: string,
     required: boolean
 }
@@ -26,6 +28,7 @@ const initialState: formsSliceState = {
     forms: [
         {
             header: "Header Info", inputs: [
+                {name: "photo", type: "file", accept: "image/jpeg, image/jpg, image/png, image/gif", placeholder: "Choose your photo", required: false},
                 {name: "first_name", type: "text", placeholder: "Enter firstname", required: true},
                 {name: "last_name", type: "text", placeholder: "Enter lastname", required: true},
                 {name: "vacancy", type: "text", placeholder: "Enter vacancy", required: false}
@@ -50,17 +53,30 @@ const initialState: formsSliceState = {
                 {name: "finish_date", type: "date", placeholder: "Enter finish date", required: true},
                 {name: "caption", type: "text", placeholder: "Enter caption", required: false},
             ]
+        },
+        {
+            header: "Education", inputs: [
+                {name: "name", type: "text", placeholder: "Enter education name", required: true},
+                {name: "start_date", type: "date", placeholder: "Enter start date", required: true},
+                {name: "finish_date", type: "date", placeholder: "Enter finish date", required: true},
+                {name: "city", type: "text", placeholder: "Enter city", required: true},
+                {name: "caption", type: "text", placeholder: "Enter specialty", required: false},
+            ]
         }
     ],
     resumeData: {
         first_name: "",
         last_name: "",
+        photo: [],
         vacancy: "",
         city: "",
         country: "",
         phone: "",
         email: "",
+        stack: [],
         links: [],
+        langs: [],
+        education: [],
         projects: {
             header: "Projects",
             array: [
@@ -75,7 +91,7 @@ export const formsReducer = createSlice({
         reducers: {
             setResumeData(state: formsSliceState,
                           actions: PayloadAction<
-                              { first_name: string, last_name: string, vacancy: string }
+                              { first_name: string, last_name: string, vacancy: string, photo: any }
                               | { city: string, country: string }
                               | { phone: string, email: string }>) {
 
@@ -94,8 +110,20 @@ export const formsReducer = createSlice({
                 return state;
             },
             setLinks(state: formsSliceState,
-                     actions: PayloadAction<linkType[]>){
-                state.resumeData.links = actions.payload
+                     actions: PayloadAction<{links: linkType[], langs: {lang: string, level: levels}[]}>){
+                state.resumeData.links = actions.payload.links
+                state.resumeData.langs = actions.payload.langs
+
+                return state;
+            },
+            setStack(state: formsSliceState,
+                     actions: PayloadAction<string[]>){
+                state.resumeData.stack = actions.payload
+
+                return state;
+            },
+            setEducation(state: formsSliceState, actions: PayloadAction<educationDataType[]>){
+                state.resumeData.education = actions.payload
 
                 return state;
             }
@@ -103,4 +131,4 @@ export const formsReducer = createSlice({
     }
 )
 
-export const {setResumeData, changePosition, setProjectData, setLinks} = formsReducer.actions
+export const {setResumeData, setEducation, setStack, changePosition, setProjectData, setLinks} = formsReducer.actions

@@ -1,6 +1,6 @@
 import {ChangeEvent, FC, useEffect, useState} from 'react';
 import st from './AddLinks.module.css'
-import {SubmitButton} from "../SubmitButton/SubmitButton.tsx";
+import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
 
 export type AddLinksPropsType = {
     links: linkType[]

@@ -17,7 +17,6 @@ export const Form: FC<formType> = (props) => {
 
     const {register, handleSubmit, resetField, unregister} = useForm();
 
-    debugger
     const onSubmit = (data: any) => {
         props.getData && props.getData(data)
 
@@ -28,7 +27,7 @@ export const Form: FC<formType> = (props) => {
 
     }
     const inputs = props.step.inputs.map((element) =>
-        <input key={"input_" + element.name} type={element.type} placeholder={element.placeholder} {...register(element.name, {required: element.required})}/>
+        <input key={"input_" + element.name} accept={element.accept && element.accept} type={element.type} placeholder={element.placeholder} {...register(element.name, {required: element.required})}/>
     )
 
     return(
