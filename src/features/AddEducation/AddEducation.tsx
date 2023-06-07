@@ -1,10 +1,11 @@
 import {FC, useState} from 'react';
-import {ProjectCard} from "../../entities/ProjectCard/ProjectCard.tsx";
 import {Form} from "../../entities/Form/Form.tsx";
-import {changePosition, setEducation, setProjectData, stepType} from "../../App/Redux/formsReducer.ts";
+import {changePosition, setEducation, stepType} from "../../App/Redux/formsReducer.ts";
 import {useDispatch} from "react-redux";
 import {EducationCard} from "../../entities/EducationCard/EducationCard.tsx";
 import {formatDateFromString} from "../utils.ts";
+import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
+import {Step} from "../../entities/Step/Step.tsx";
 
 export type educationDataType = {
     name: string,
@@ -22,9 +23,9 @@ export const AddEducation: FC<AddEducationPropsType> = (props) => {
 
     const dispatch = useDispatch()
 
-    function nextPosition(){
-        dispatch(changePosition(+1))
+    function saveData(){
         dispatch(setEducation(data))
+        dispatch(changePosition(8))
     }
 
     function getFormData(_data: educationDataType){
@@ -39,10 +40,10 @@ export const AddEducation: FC<AddEducationPropsType> = (props) => {
     return (
         <>
 
-                <div>
+                <Step header={props.step.header} onClick={saveData}>
                     {education}
-                    <Form step={props.step} getData={getFormData} next={nextPosition} prev={() => {console.log("prev button")}}></Form>
-                </div>
+                    <Form reset={true} step={props.step} getData={getFormData}></Form>
+                </Step>
 
         </>
     )

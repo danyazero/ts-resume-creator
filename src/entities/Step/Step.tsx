@@ -1,24 +1,20 @@
-import React, {FC, FormEvent, ReactNode} from 'react';
-import st from "./Step.module.css"
+import React, {FC, ReactNode} from 'react';
 import {SubmitButton} from "../../shared/SubmitButton/SubmitButton";
+import {HashLink} from "react-router-hash-link";
 
 export type stepPropsType = {
     header: string
     children?: ReactNode
-    previous(): void
-    next?(): void
+    onClick?(): void
 }
 export const Step: FC<stepPropsType> = (props) => {
     return (
-        <>
-            <h2>{props.header}</h2>
+        <div id={props.header.split(" ").join("").toLowerCase()}>
+            {/*<h2>{props.header}</h2>*/}
 
             {props.children}
 
-            <div className={st.navigationContainer}>
-                <SubmitButton name={"Prev"} onClick={props.previous}/>
-                <SubmitButton onClick={props.next} name={"Next"}/>
-            </div>
-        </>
+            {props.onClick && <SubmitButton name={"Save"} onClick={props.onClick}/>}
+        </div>
     )
 };

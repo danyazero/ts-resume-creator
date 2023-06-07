@@ -1,0 +1,29 @@
+.dropdown{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: #323639;
+    border-radius: 15px;
+    width: 400px;
+    margin-bottom: 8px;
+
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.items{
+    padding: 15px;
+    width: 400px;
+    background: #323639;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.checkbox{
+    width: 25px;
+    height: 25px;
+}
+
+.checkbox:checked{
+    accent-color: green;
+}

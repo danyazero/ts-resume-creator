@@ -13,7 +13,7 @@ export const AddLinks: FC<AddLinksPropsType> = (props) => {
     const [link, setLink] = useState("")
 
     const onSubmit = () => {
-        if(props.getData && (name.length > 0 && link.length > 0)) props.getData( [...props.links, {name, href: link}]);
+        if (props.getData && (name.length > 0 && link.length > 0)) props.getData([...props.links, {name, href: link}]);
         setName("")
         setLink("")
     }
@@ -23,13 +23,18 @@ export const AddLinks: FC<AddLinksPropsType> = (props) => {
 
 
     return (
-        <>
-            {inputs}
-                <div className={st.addLink}>
-                    <input placeholder={"Enter link name"} name={"name"} value={name} onChange={(event:  ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
-                    <input placeholder={"Enter link"} name={"href"} value={link} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLink(event.target.value)}/>
-                    <SubmitButton onClick={onSubmit} name={"Add"}/>
-                </div>
-        </>
+        <div className={st.addLinkContainer}>
+
+            <div className={st.bricksContainer}>
+                {inputs}
+            </div>
+            <div className={st.addLink}>
+                <input style={{width: "110px"}} placeholder={"Enter link name"} name={"name"} value={name}
+                       onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
+                <input style={{width: "110px"}} placeholder={"Enter link"} name={"href"} value={link}
+                       onChange={(event: ChangeEvent<HTMLInputElement>) => setLink(event.target.value)}/>
+                <SubmitButton onClick={onSubmit} name={"Add"}/>
+            </div>
+        </div>
     )
 };

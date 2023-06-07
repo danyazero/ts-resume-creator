@@ -20,12 +20,12 @@ export const AddTechnology: FC<AddLinksPropsType> = (props) => {
 
 
     return (
-        <>
-            {inputs}
+        <div className={st.addTechnologyContainer}>
+            <div className={st.bricksContainer}>{inputs}</div>
             <div className={st.addTechnology}>
                 <input placeholder={"Enter technology"} name={"technology"} value={technology} onChange={(event:  ChangeEvent<HTMLInputElement>) => setTechnology(event.target.value)}/>
                 <SubmitButton onClick={onSubmit} name={"Add"}/>
             </div>
-        </>
+        </div>
     )
 };

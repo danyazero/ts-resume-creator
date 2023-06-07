@@ -1,9 +1,29 @@
-.technology{
 
+
+.technology{
+    background: #f0f2f9;
+    padding: 4px 12px;
+    color: black;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.bricksContainer{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 350px;
+    gap: 8px;
 }
 
 .addTechnology{
     display: flex;
     flex-direction: row;
+    gap: 8px;
+}
+
+.addTechnologyContainer{
+    display: flex;
+    flex-direction: column;
     gap: 8px;
 }

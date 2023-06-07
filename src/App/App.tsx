@@ -1,12 +1,7 @@
 import './App.css'
-import PDFView from "../PdfConstructor/PDFView";
-import { useForm } from "react-hook-form";
-import {useState} from "react";
-import {InputField} from "../shared/inputField/inputField";
-import {Step} from "../entities/Step/Step";
+import React from "react";
 import {PDFViewContainer} from "../PdfConstructor/PDFViewContainer";
 import {FillStepsContainer} from "../widgets/FillSteps/FillStepsContainer";
-
 
 export type resumeDataType = {
     headerData: {name: string, lastName: string, vacancy: string},
@@ -17,13 +12,13 @@ export type resumeDataType = {
 function App() {
 
     return (
-        <div className={"mainPage"}>
+            <div className={"mainPage"}>
                 <div>
                     <FillStepsContainer/>
 
                 </div>
-            <PDFViewContainer/>
-        </div>
+                <PDFViewContainer/>
+            </div>
     )
 }
 

@@ -4,6 +4,8 @@ import {projectDataType} from "../features/AddProject/AddProject.tsx";
 import {levels} from "../entities/AddLanguage/AddLanguage.tsx";
 import {educationDataType} from "../features/AddEducation/AddEducation.tsx";
 
+export interface ILanguage { lang: string, level: levels }
+
 export type PDFDocumentProps = {
     first_name: string,
     last_name: string,
@@ -13,7 +15,7 @@ export type PDFDocumentProps = {
     phone: string,
     email: string,
     links: linkType[],
-    langs: { lang: string, level: levels }[]
+    langs: ILanguage[]
     stack: string[],
     projects: projectsType
     photo: any,
@@ -176,7 +178,7 @@ function PDFView(props: { forms: PDFDocumentProps }) {
     }
 
     return (
-        <div>
+        <div style={{position: "fixed", right: "5px", top: "5px", height: "100%"}}>
             <PDFViewer showToolbar={true} style={styles.viewer}>
                 <Document>
                     <Page size="A4" style={styles.page}>

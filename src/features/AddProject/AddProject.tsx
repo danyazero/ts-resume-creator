@@ -6,6 +6,7 @@ import {changePosition, setProjectData, stepType} from "../../App/Redux/formsRed
 import {useDispatch} from "react-redux";
 import {AddTechnology} from "../../entities/AddTechnology/AddTechnology.tsx";
 import {formatDateFromString} from "../utils.ts";
+import {Step} from "../../entities/Step/Step.tsx";
 
 export type projectDataType = {
     name: string,
@@ -38,9 +39,9 @@ export const AddProject: FC<AddProjectPropsType> = (props) => {
         setProjectStack(data)
     }
 
-    function nextPosition(){
-        dispatch(changePosition(+1))
+    function saveData(){
         dispatch(setProjectData({header, array: data}))
+        dispatch(changePosition(7))
     }
 
     function getFormData(_data: projectDataType){
@@ -62,16 +63,16 @@ export const AddProject: FC<AddProjectPropsType> = (props) => {
     return (
         <>
 
-                <div>
+            <Step header={props.step.header} onClick={saveData}>
                     <input placeholder={"Enter Header"} value={header} onChange={(event: ChangeEvent<HTMLInputElement>) => setHeader(event.target.value)} required={true}/>
 
                     {projects}
 
-                    <Form step={props.step} getData={getFormData} next={nextPosition} prev={() => {console.log("prev button")}}>
+                    <Form reset={true} step={props.step} getData={getFormData}>
                         <AddLinks links={projectLinks} getData={getLinks}/>
                         <AddTechnology stack={projectStack} getData={getStack}/>
                     </Form>
-                </div>
+            </Step>
 
         </>
     )

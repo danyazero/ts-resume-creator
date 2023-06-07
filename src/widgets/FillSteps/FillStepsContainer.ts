@@ -1,11 +1,12 @@
 
 import {connect} from "react-redux";
 import {Dispatch} from "react";
-import {changePosition, setLinks, setResumeData, setStack, stepType} from "../../App/Redux/formsReducer";
+import {changePosition, setLanguages, setLinks, setResumeData, setStack, stepType} from "../../App/Redux/formsReducer";
 import {FillSteps} from "./FillSteps";
 import {RootState} from "../../App/Redux/store.ts";
 import {linkType} from "../../entities/addLinks/AddLinks.tsx";
 import {levels} from "../../entities/AddLanguage/AddLanguage.tsx";
+import {ILanguage} from "../../PdfConstructor/PDFView.tsx";
 
 
 export type FillStepsPropsType = {
@@ -22,7 +23,8 @@ function mapStateToProps(state: RootState): FillStepsPropsType{
 export type dFillStepsPropsType = {
     setMainData(data: any): void,
     changePosition(add: number): void,
-    setLinks(data: {links: linkType[], langs: {lang: string, level: levels}[]}): void,
+    setLinks(data: linkType[]): void,
+    setLanguages(data: ILanguage[]): void,
     setStack(data: string[]): void
 }
 
@@ -34,7 +36,10 @@ function mapDispatchToProps(dispatch: Dispatch<any>): dFillStepsPropsType{
         changePosition(add: number){
             dispatch(changePosition(add))
         },
-        setLinks(data: {links: linkType[], langs: {lang: string, level: levels}[]}){
+        setLanguages(data: ILanguage[]){
+            dispatch(setLanguages(data))
+        },
+        setLinks(data: linkType[]){
             dispatch(setLinks(data))
         },
         setStack(data: string[]){

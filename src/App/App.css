@@ -15,13 +15,13 @@ input{
   background: #f6f7fb;
   color: black;
   padding: 12px;
-  width: 220px;
+  width: 252px;
   border-radius: 15px;
   border: 1px solid transparent;
 }
 
 input[type="date"]{
-  width: 130px;
+  width: 110px;
 }
 
 ::-webkit-calendar-picker-indicator{

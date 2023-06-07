@@ -32,16 +32,16 @@ export const AddLanguage: FC<AddLanguagePropsType> = (props) => {
 
 
     return (
-        <>
-            {inputs}
+        <div className={st.addTechnologyContainer}>
+            <div className={st.bricksContainer}>{inputs}</div>
             <div className={st.addTechnology}>
-                <input placeholder={"Enter language"} name={"language"} value={lang} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLang(event.target.value)}/>
-                <input placeholder={"Enter your level"} type={"text"} list={"lang_level"} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLevel(event.target.value)}/>
+                <input style={{width: "110px"}} placeholder={"Enter language"} name={"language"} value={lang} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLang(event.target.value)}/>
+                <input style={{width: "110px"}} placeholder={"Enter your level"} value={level} type={"text"} list={"lang_level"} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLevel(event.target.value)}/>
                 <datalist id={"lang_level"}>
                     {(Object.keys(levels) as (keyof typeof levels)[]).map((element, index) => <option key={"option_"+index} value={levels[element]}></option> )}
                 </datalist>
                 <SubmitButton onClick={onSubmit} name={"Add"}/>
             </div>
-        </>
+        </div>
     )
 };

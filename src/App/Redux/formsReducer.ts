@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
+import {ILanguage, PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
 import {linkType} from "../../entities/addLinks/AddLinks";
 import {levels} from "../../entities/AddLanguage/AddLanguage.tsx";
 import {educationDataType} from "../../features/AddEducation/AddEducation.tsx";
@@ -91,7 +91,7 @@ export const formsReducer = createSlice({
         reducers: {
             setResumeData(state: formsSliceState,
                           actions: PayloadAction<
-                              { first_name: string, last_name: string, vacancy: string, photo: any }
+                              { first_name: string, last_name: string, vacancy: string, photo: string }
                               | { city: string, country: string }
                               | { phone: string, email: string }>) {
 
@@ -100,7 +100,7 @@ export const formsReducer = createSlice({
                 return state;
             },
             changePosition(state: formsSliceState, actions: PayloadAction<number>){
-                state.position += actions.payload
+                state.position = actions.payload
 
                 return state;
             },
@@ -110,9 +110,14 @@ export const formsReducer = createSlice({
                 return state;
             },
             setLinks(state: formsSliceState,
-                     actions: PayloadAction<{links: linkType[], langs: {lang: string, level: levels}[]}>){
-                state.resumeData.links = actions.payload.links
-                state.resumeData.langs = actions.payload.langs
+                     actions: PayloadAction<linkType[]>){
+                state.resumeData.links = actions.payload
+
+                return state;
+            },
+            setLanguages(state: formsSliceState,
+                         actions: PayloadAction<ILanguage[]>){
+                state.resumeData.langs = actions.payload
 
                 return state;
             },
@@ -131,4 +136,4 @@ export const formsReducer = createSlice({
     }
 )
 
-export const {setResumeData, setEducation, setStack, changePosition, setProjectData, setLinks} = formsReducer.actions
+export const {setResumeData, setLanguages, setEducation, setStack, changePosition, setProjectData, setLinks} = formsReducer.actions
