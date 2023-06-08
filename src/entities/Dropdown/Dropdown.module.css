@@ -4,7 +4,7 @@
     padding: 15px;
     background: #323639;
     border-radius: 15px;
-    width: 400px;
+    width: 450px;
     margin-bottom: 8px;
 
     font-size: 24px;
@@ -13,7 +13,10 @@
 
 .items{
     padding: 15px;
-    width: 400px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     background: #323639;
     border-radius: 15px;
     margin-bottom: 15px;

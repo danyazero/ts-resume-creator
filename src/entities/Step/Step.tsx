@@ -9,12 +9,12 @@ export type stepPropsType = {
 }
 export const Step: FC<stepPropsType> = (props) => {
     return (
-        <div id={props.header.split(" ").join("").toLowerCase()}>
+        <>
             {/*<h2>{props.header}</h2>*/}
 
             {props.children}
 
             {props.onClick && <SubmitButton name={"Save"} onClick={props.onClick}/>}
-        </div>
+        </>
     )
 };

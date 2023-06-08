@@ -1,4 +1,5 @@
 export type StartButtonPropsType = {
     name: string,
-    onClick?(): any
+    onClick?(): any,
+    width?: string
 }

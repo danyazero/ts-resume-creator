@@ -1,5 +1,5 @@
 import {ChangeEvent, FC, useEffect, useState} from 'react';
-import st from './AddLinks.module.css'
+import st from './LinksForm.module.css'
 import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
 
 export type AddLinksPropsType = {
@@ -8,7 +8,7 @@ export type AddLinksPropsType = {
 }
 
 export type linkType = { name: string, href: string }
-export const AddLinks: FC<AddLinksPropsType> = (props) => {
+export const LinksForm: FC<AddLinksPropsType> = (props) => {
     const [name, setName] = useState("")
     const [link, setLink] = useState("")
 
@@ -29,11 +29,11 @@ export const AddLinks: FC<AddLinksPropsType> = (props) => {
                 {inputs}
             </div>
             <div className={st.addLink}>
-                <input style={{width: "110px"}} placeholder={"Enter link name"} name={"name"} value={name}
+                <input style={{width: "140px"}} placeholder={"Enter link name"} name={"name"} value={name}
                        onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
-                <input style={{width: "110px"}} placeholder={"Enter link"} name={"href"} value={link}
+                <input style={{width: "140px"}} placeholder={"Enter link"} name={"href"} value={link}
                        onChange={(event: ChangeEvent<HTMLInputElement>) => setLink(event.target.value)}/>
-                <SubmitButton onClick={onSubmit} name={"Add"}/>
+                <SubmitButton width={"75px"} onClick={onSubmit} name={"Add"}/>
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ILanguage, PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
-import {linkType} from "../../entities/addLinks/AddLinks";
-import {levels} from "../../entities/AddLanguage/AddLanguage.tsx";
+import {linkType} from "../../entities/LinksForm/LinksForm.tsx";
+import {levels} from "../../entities/LanguageForm/LanguageForm.tsx";
 import {educationDataType} from "../../features/AddEducation/AddEducation.tsx";
 
 export type formsSliceState = {
@@ -42,23 +42,23 @@ const initialState: formsSliceState = {
         },
         {
             header: "Contact Info", inputs: [
-                {name: "phone", type: "text", placeholder: "Enter phone", required: true},
-                {name: "email", type: "text", placeholder: "Enter email", required: true},
+                {name: "phone", type: "tel", placeholder: "Enter phone", required: true},
+                {name: "email", type: "email", placeholder: "Enter email", required: true},
             ]
         },
         {
             header: "Projects", inputs: [
                 {name: "name", type: "text", placeholder: "Enter name", required: true},
-                {name: "start_date", type: "date", placeholder: "Enter start date", required: true},
-                {name: "finish_date", type: "date", placeholder: "Enter finish date", required: true},
+                {name: "start_date", type: "month", placeholder: "Enter start date", required: true},
+                {name: "finish_date", type: "month", placeholder: "Enter finish date", required: true},
                 {name: "caption", type: "text", placeholder: "Enter caption", required: false},
             ]
         },
         {
             header: "Education", inputs: [
                 {name: "name", type: "text", placeholder: "Enter education name", required: true},
-                {name: "start_date", type: "date", placeholder: "Enter start date", required: true},
-                {name: "finish_date", type: "date", placeholder: "Enter finish date", required: true},
+                {name: "start_date", type: "month", placeholder: "Enter start date", required: true},
+                {name: "finish_date", type: "month", placeholder: "Enter finish date", required: true},
                 {name: "city", type: "text", placeholder: "Enter city", required: true},
                 {name: "caption", type: "text", placeholder: "Enter specialty", required: false},
             ]
@@ -100,7 +100,7 @@ export const formsReducer = createSlice({
                 return state;
             },
             changePosition(state: formsSliceState, actions: PayloadAction<number>){
-                state.position = actions.payload
+                state.position += actions.payload
 
                 return state;
             },

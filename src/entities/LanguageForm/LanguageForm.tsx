@@ -1,5 +1,5 @@
 import {ChangeEvent, FC, useState} from 'react';
-import st from './AddLanguage.module.css'
+import st from './LanguageForm.module.css'
 import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
 
 export enum levels {
@@ -12,12 +12,14 @@ export enum levels {
     NATIVE = "Native"
 }
 
+export type languageType = { lang: string, level: string }
+
 export type AddLanguagePropsType = {
-    languages: {lang: string, level: string}[]
-    getData?(data: {lang: string, level: string}[]): void
+    languages: languageType[]
+    getData?(data: languageType[]): void
 }
 
-export const AddLanguage: FC<AddLanguagePropsType> = (props) => {
+export const LanguageForm: FC<AddLanguagePropsType> = (props) => {
     const [lang, setLang] = useState("")
     const [level, setLevel] = useState<string>("")
 
@@ -35,12 +37,12 @@ export const AddLanguage: FC<AddLanguagePropsType> = (props) => {
         <div className={st.addTechnologyContainer}>
             <div className={st.bricksContainer}>{inputs}</div>
             <div className={st.addTechnology}>
-                <input style={{width: "110px"}} placeholder={"Enter language"} name={"language"} value={lang} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLang(event.target.value)}/>
-                <input style={{width: "110px"}} placeholder={"Enter your level"} value={level} type={"text"} list={"lang_level"} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLevel(event.target.value)}/>
+                <input style={{width: "140px"}} placeholder={"Enter language"} name={"language"} value={lang} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLang(event.target.value)}/>
+                <input style={{width: "140px"}} placeholder={"Enter your level"} value={level} type={"text"} list={"lang_level"} onChange={(event:  ChangeEvent<HTMLInputElement>) => setLevel(event.target.value)}/>
                 <datalist id={"lang_level"}>
                     {(Object.keys(levels) as (keyof typeof levels)[]).map((element, index) => <option key={"option_"+index} value={levels[element]}></option> )}
                 </datalist>
-                <SubmitButton onClick={onSubmit} name={"Add"}/>
+                <SubmitButton width={"75px"} onClick={onSubmit} name={"Add"}/>
             </div>
         </div>
     )

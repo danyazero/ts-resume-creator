@@ -1,11 +1,11 @@
 import {FC, useState} from 'react';
 import {Form} from "../../entities/Form/Form.tsx";
-import {changePosition, setEducation, stepType} from "../../App/Redux/formsReducer.ts";
-import {useDispatch} from "react-redux";
+import {changePosition, setEducation} from "../../App/Redux/formsReducer.ts";
+import {useDispatch, useSelector} from "react-redux";
 import {EducationCard} from "../../entities/EducationCard/EducationCard.tsx";
 import {formatDateFromString} from "../utils.ts";
-import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
 import {Step} from "../../entities/Step/Step.tsx";
+import {RootState} from "../../App/Redux/store.ts";
 
 export type educationDataType = {
     name: string,
@@ -15,17 +15,17 @@ export type educationDataType = {
     caption: string,
 }
 
-export type AddEducationPropsType = {
-    step: stepType
-}
-export const AddEducation: FC<AddEducationPropsType> = (props) => {
+// export type AddEducationPropsType = {
+// }
+export const AddEducation: FC = () => {
     const [data, setData] = useState<educationDataType[]>([])
 
     const dispatch = useDispatch()
+    const step = useSelector((state: RootState) => state.forms.forms[4])
 
     function saveData(){
         dispatch(setEducation(data))
-        dispatch(changePosition(8))
+        dispatch(changePosition(1))
     }
 
     function getFormData(_data: educationDataType){
@@ -40,9 +40,9 @@ export const AddEducation: FC<AddEducationPropsType> = (props) => {
     return (
         <>
 
-                <Step header={props.step.header} onClick={saveData}>
+                <Step header={step.header} onClick={saveData}>
                     {education}
-                    <Form reset={true} step={props.step} getData={getFormData}></Form>
+                    <Form reset={true} step={step} getData={getFormData}></Form>
                 </Step>
 
         </>

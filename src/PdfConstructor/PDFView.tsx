@@ -1,10 +1,9 @@
-import {Canvas, Document, Font, Image, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
-import {linkType} from "../entities/addLinks/AddLinks";
+import {Canvas, Document, Image, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
+import {linkType} from "../entities/LinksForm/LinksForm.tsx";
 import {projectDataType} from "../features/AddProject/AddProject.tsx";
-import {levels} from "../entities/AddLanguage/AddLanguage.tsx";
+import {languageType} from "../entities/LanguageForm/LanguageForm.tsx";
 import {educationDataType} from "../features/AddEducation/AddEducation.tsx";
 
-export interface ILanguage { lang: string, level: levels }
 
 export type PDFDocumentProps = {
     first_name: string,
@@ -15,7 +14,7 @@ export type PDFDocumentProps = {
     phone: string,
     email: string,
     links: linkType[],
-    langs: ILanguage[]
+    langs: languageType[]
     stack: string[],
     projects: projectsType
     photo: any,
@@ -40,7 +39,7 @@ function PDFView(props: { forms: PDFDocumentProps }) {
         },
         viewer: {
             margin: 0,
-            width: window.innerWidth / 3,
+            width: window.innerWidth / 3 + 40,
             height: '100%',
         },
         stack: {
@@ -183,14 +182,14 @@ function PDFView(props: { forms: PDFDocumentProps }) {
                 <Document>
                     <Page size="A4" style={styles.page}>
 
-                        <View style={styles.header}>
+                        {props.forms.first_name.length > 0 && <View style={styles.header}>
                             <View>
                                 <Text style={styles.name}>{props.forms.first_name}</Text>
                                 <Text style={styles.name}>{props.forms.last_name}</Text>
                                 <Text style={styles.vacancy}>{props.forms.vacancy}</Text>
                             </View>
                             <Image style={styles.photo} src={props.forms.photo}/>
-                        </View>
+                        </View>}
                         <Canvas style={{width: "100%", height: "2pt", marginTop: '25pt'}}
                                 paint={lineGenerator(500, 0, 1, 0.1)}/>
 
@@ -203,56 +202,69 @@ function PDFView(props: { forms: PDFDocumentProps }) {
                                     <Canvas style={{width: "25pt", height: '2pt'}}
                                             paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                    <View>
+                                    {props.forms.city.length > 0 && <View>
                                         <Text style={styles.sectionName}>address</Text>
                                         <Text style={styles.data}>{props.forms.city}</Text>
                                         <Text style={styles.data}>{props.forms.country}</Text>
-                                    </View>
-                                    <View>
+                                    </View>}
+                                    {props.forms.phone.length > 0 && <View>
                                         <Text style={styles.sectionName}>phone</Text>
                                         <Text style={styles.data}>{props.forms.phone}</Text>
-                                    </View>
-                                    <View>
+                                    </View>}
+                                    {props.forms.email.length > 0 && <View>
                                         <Text style={styles.sectionName}>email</Text>
                                         <Text style={styles.data}>{props.forms.email}</Text>
-                                    </View>
+                                    </View>}
 
-                                    <Text style={styles.blockName}>Links</Text>
-                                    <Canvas style={{width: "25pt", height: '2pt'}}
-                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                    {props.forms.links.length > 0 && <View>
+                                        <Text style={styles.blockName}>Links</Text>
+                                        <Canvas style={{width: "25pt", height: '2pt'}}
+                                                paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                    <View>
-                                        {links}
-                                    </View>
+                                        <View>
+                                            {links}
+                                        </View>
+                                    </View>}
 
-                                    <Text style={styles.blockName}>Skills</Text>
-                                    <Canvas style={{width: "25pt", height: '2pt'}}
-                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                    {props.forms.stack.length > 0 && <View>
+                                        <Text style={styles.blockName}>Skills</Text>
+                                        <Canvas style={{width: "25pt", height: '2pt'}}
+                                                paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                    <View style={styles.stack}>
-                                        {stack}
-                                    </View>
+                                        <View style={styles.stack}>
+                                            {stack}
+                                        </View>
+                                    </View>}
                                 </View>
 
                             </View>
 
                             <View style={styles.mainSection}>
-                                <Text style={styles.blockName}>{props.forms.projects.header.toUpperCase()}</Text>
-                                <Canvas style={{width: "25pt", height: '2pt'}} paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                {projects.length > 0 && <View>
+                                    <Text style={styles.blockName}>{props.forms.projects.header.toUpperCase()}</Text>
+                                    <Canvas style={{width: "25pt", height: '2pt'}}
+                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                {projects}
+                                    {projects}
+                                </View>}
 
-                                <Text style={styles.blockName}>Education</Text>
-                                <Canvas style={{width: "25pt", height: '2pt'}} paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                {educations.length > 0 && <View>
+                                    <Text style={styles.blockName}>Education</Text>
+                                    <Canvas style={{width: "25pt", height: '2pt'}}
+                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                {educations}
+                                    {educations}
+                                </View>}
 
-                                <Text style={styles.blockName}>Languages</Text>
-                                <Canvas style={{width: "25pt", height: '2pt'}} paint={lineGenerator(25, 0, 2.5, 1.0)}/>
+                                {langs.length > 0 && <View>
+                                    <Text style={styles.blockName}>Languages</Text>
+                                    <Canvas style={{width: "25pt", height: '2pt'}}
+                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
-                                <View style={styles.stack}>
-                                    {langs}
-                                </View>
+                                    <View style={styles.stack}>
+                                        {langs}
+                                    </View>
+                                </View>}
                             </View>
 
 

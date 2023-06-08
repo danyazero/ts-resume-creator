@@ -1,5 +1,5 @@
 import {ChangeEvent, FC, useState} from 'react';
-import st from './AddTechnology.module.css'
+import st from './TechnologyForm.module.css'
 import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
 
 export type AddLinksPropsType = {
@@ -7,7 +7,7 @@ export type AddLinksPropsType = {
     getData?(data: string[]): void
 }
 
-export const AddTechnology: FC<AddLinksPropsType> = (props) => {
+export const TechnologyForm: FC<AddLinksPropsType> = (props) => {
     const [technology, setTechnology] = useState("")
 
     const onSubmit = () => {
@@ -24,7 +24,7 @@ export const AddTechnology: FC<AddLinksPropsType> = (props) => {
             <div className={st.bricksContainer}>{inputs}</div>
             <div className={st.addTechnology}>
                 <input placeholder={"Enter technology"} name={"technology"} value={technology} onChange={(event:  ChangeEvent<HTMLInputElement>) => setTechnology(event.target.value)}/>
-                <SubmitButton onClick={onSubmit} name={"Add"}/>
+                <SubmitButton width={"75px"} onClick={onSubmit} name={"Add"}/>
             </div>
         </div>
     )
