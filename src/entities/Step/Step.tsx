@@ -1,13 +1,8 @@
-import React, {FC, ReactNode} from 'react';
+import {FC} from 'react';
 import {SubmitButton} from "../../shared/SubmitButton/SubmitButton";
-import {HashLink} from "react-router-hash-link";
+import {IStepProps} from "./StepModel.ts";
 
-export type stepPropsType = {
-    header: string
-    children?: ReactNode
-    onClick?(): void
-}
-export const Step: FC<stepPropsType> = (props) => {
+export const Step: FC<IStepProps> = (props) => {
     return (
         <>
             {/*<h2>{props.header}</h2>*/}

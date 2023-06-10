@@ -1,14 +1,11 @@
 import {TechnologyForm} from "../../entities/TechnologyForm/TechnologyForm.tsx";
 import {Step} from "../../entities/Step/Step.tsx";
-import {useDispatch} from "react-redux";
 import {useState} from "react";
-import {changePosition, setStack} from "../../App/Redux/formsReducer.ts";
+import {useAddStack} from "./hooks/useAddStack.ts";
 
 export const AddStack = () => {
 
-    const dispatch = useDispatch()
-    const dChangePosition = (add: number) => dispatch(changePosition(add))
-    const dSetStack = (_data: string[]) => dispatch(setStack(_data))
+    const {dSetStack, dChangePosition} = useAddStack()
     const [_stack, _setStack] = useState<string[]>([])
 
     return(

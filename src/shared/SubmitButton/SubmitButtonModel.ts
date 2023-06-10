@@ -1,4 +1,4 @@
-export type StartButtonPropsType = {
+export interface IStartButtonProps {
     name: string,
     onClick?(): any,
     width?: string

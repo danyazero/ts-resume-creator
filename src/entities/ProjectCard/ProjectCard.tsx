@@ -1,14 +1,13 @@
-import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import st from './ProjectCard.module.css'
-import {projectDataType} from "../../features/AddProject/AddProject.tsx";
+import {linkType, IProjectData} from "../../features/AddProject/AddProjectModel.ts";
 
-export const ProjectCard: FC<projectDataType> = (props) => {
+export const ProjectCard: FC<IProjectData> = (props) => {
 
-    debugger
-
-    const links = props.links.map((element, index) => <div className={st.link} key={"object_" + index}><a
+    const links = props.links.map((element: linkType, index) => <div className={st.link} key={"object_" + index}><a
         href={element.href}>{element.name}</a></div>)
     const stack = props.stack.map((element, index) => <p key={"technology_" + index}>{element}</p>)
+
     return (
         <>
             <div className={st.container}>

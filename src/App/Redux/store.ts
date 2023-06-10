@@ -1,5 +1,5 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {formsReducer, formsSliceState} from "./formsReducer";
+import {formsReducer, IFormsSliceState} from "./formsReducer";
 
 const reducers = combineReducers({
     forms: formsReducer.reducer
@@ -9,5 +9,5 @@ const store = configureStore({
     reducer: reducers
 })
 
-export type RootState = {forms: formsSliceState}
+export type RootState = {forms: IFormsSliceState}
 export default store

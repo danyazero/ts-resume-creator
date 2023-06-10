@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ILanguage, PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
-import {linkType} from "../../entities/LinksForm/LinksForm.tsx";
-import {levels} from "../../entities/LanguageForm/LanguageForm.tsx";
-import {educationDataType} from "../../features/AddEducation/AddEducation.tsx";
+import {PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
+import {IEducationData} from "../../features/AddEducation/AddEducationModel.ts";
+import {IAddLanguageProps, languageType} from "../../entities/LanguageForm/LanguageFormModel.ts";
+import {linkType} from "../../features/AddProject/AddProjectModel.ts";
 
-export type formsSliceState = {
+export interface IFormsSliceState {
     position: number,
     forms: stepType[],
     resumeData: PDFDocumentProps
@@ -23,7 +23,7 @@ export type inputFieldType = {
     required: boolean
 }
 
-const initialState: formsSliceState = {
+const initialState: IFormsSliceState = {
     position: 0,
     forms: [
         {
@@ -89,7 +89,7 @@ export const formsReducer = createSlice({
         name: "formsReducer",
         initialState,
         reducers: {
-            setResumeData(state: formsSliceState,
+            setResumeData(state: IFormsSliceState,
                           actions: PayloadAction<
                               { first_name: string, last_name: string, vacancy: string, photo: string }
                               | { city: string, country: string }
@@ -99,35 +99,35 @@ export const formsReducer = createSlice({
 
                 return state;
             },
-            changePosition(state: formsSliceState, actions: PayloadAction<number>){
+            changePosition(state: IFormsSliceState, actions: PayloadAction<number>){
                 state.position += actions.payload
 
                 return state;
             },
-            setProjectData(state: formsSliceState, actions: PayloadAction<projectsType>){
+            setProjectData(state: IFormsSliceState, actions: PayloadAction<projectsType>){
                 state.resumeData.projects = actions.payload
 
                 return state;
             },
-            setLinks(state: formsSliceState,
+            setLinks(state: IFormsSliceState,
                      actions: PayloadAction<linkType[]>){
                 state.resumeData.links = actions.payload
 
                 return state;
             },
-            setLanguages(state: formsSliceState,
-                         actions: PayloadAction<ILanguage[]>){
+            setLanguages(state: IFormsSliceState,
+                         actions: PayloadAction<languageType[]>){
                 state.resumeData.langs = actions.payload
 
                 return state;
             },
-            setStack(state: formsSliceState,
+            setStack(state: IFormsSliceState,
                      actions: PayloadAction<string[]>){
                 state.resumeData.stack = actions.payload
 
                 return state;
             },
-            setEducation(state: formsSliceState, actions: PayloadAction<educationDataType[]>){
+            setEducation(state: IFormsSliceState, actions: PayloadAction<IEducationData[]>){
                 state.resumeData.education = actions.payload
 
                 return state;

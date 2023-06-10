@@ -1,14 +1,12 @@
-import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {Step} from "../../entities/Step/Step.tsx";
-import {LinksForm, linkType} from "../../entities/LinksForm/LinksForm.tsx";
-import {changePosition, setLinks} from "../../App/Redux/formsReducer.ts";
+import {LinksForm} from "../../entities/LinksForm/LinksForm.tsx";
+import {linkType} from "../AddProject/AddProjectModel.ts";
+import {useAddLinks} from "./hooks/useAddLinks.ts";
 
 export const AddLinks = () => {
 
-    const dispatch = useDispatch()
-    const dChangePosition = (add: number) => dispatch(changePosition(add))
-    const dSetLinks = (_data: linkType[]) => dispatch(setLinks(_data))
+    const {dSetLinks, dChangePosition} = useAddLinks()
     const [_links, _setLinks] = useState<linkType[]>([])
 
     return(

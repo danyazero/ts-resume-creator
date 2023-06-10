@@ -1,8 +1,8 @@
 import {Canvas, Document, Image, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
 import {linkType} from "../entities/LinksForm/LinksForm.tsx";
-import {projectDataType} from "../features/AddProject/AddProject.tsx";
+import {IProjectData} from "../features/AddProject/AddProject.tsx";
 import {languageType} from "../entities/LanguageForm/LanguageForm.tsx";
-import {educationDataType} from "../features/AddEducation/AddEducation.tsx";
+import {IEducationData} from "../features/AddEducation/AddEducation.tsx";
 
 
 export type PDFDocumentProps = {

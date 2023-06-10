@@ -1,0 +1,6 @@
+.brick{
+    background: #f0f2f9;
+    padding: 4px 12px;
+    border-radius: 4px;
+    width: fit-content;
+}

@@ -1,40 +1,32 @@
-import {ChangeEvent, FC, useEffect, useState} from 'react';
-import st from './LinksForm.module.css'
-import {SubmitButton} from "../../shared/SubmitButton/SubmitButton.tsx";
+import {ChangeEvent, FC, useState} from 'react';
+import {IAddLinksProps} from "./LinksFormModel.ts";
+import {ItemBrick} from "../../shared/ItemBrick/ItemBrick.tsx";
+import {ListForm} from "../../shared/ListForm/ListForm.tsx";
 
-export type AddLinksPropsType = {
-    links: linkType[]
-    getData?(data: linkType[]): void
-}
-
-export type linkType = { name: string, href: string }
-export const LinksForm: FC<AddLinksPropsType> = (props) => {
+export const LinksForm: FC<IAddLinksProps> = (props) => {
     const [name, setName] = useState("")
     const [link, setLink] = useState("")
 
     const onSubmit = () => {
-        if (props.getData && (name.length > 0 && link.length > 0)) props.getData([...props.links, {name, href: link}]);
-        setName("")
-        setLink("")
+        if ((name.length > 0 && link.length > 0)) {
+            setName("")
+            setLink("")
+            props.getData && props.getData([...props.links, {name, href: link}]);
+        }
     }
 
-    const inputs = props.links.map((element, index) => <div className={st.links} key={"object_" + index}><a
-        href={element.href}>{element.name}</a></div>)
+    const inputs = props.links.map((element, index) => <ItemBrick key={"object_link_" + index} name={element.name}
+                                                                  href={element.href}/>)
 
 
     return (
-        <div className={st.addLinkContainer}>
-
-            <div className={st.bricksContainer}>
-                {inputs}
-            </div>
-            <div className={st.addLink}>
+        <>
+            <ListForm bricks={inputs} onSubmit={onSubmit}>
                 <input style={{width: "140px"}} placeholder={"Enter link name"} name={"name"} value={name}
                        onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
                 <input style={{width: "140px"}} placeholder={"Enter link"} name={"href"} value={link}
                        onChange={(event: ChangeEvent<HTMLInputElement>) => setLink(event.target.value)}/>
-                <SubmitButton width={"75px"} onClick={onSubmit} name={"Add"}/>
-            </div>
-        </div>
+            </ListForm>
+        </>
     )
 };

@@ -1,13 +1,8 @@
-import {FC, ReactNode, useState} from "react";
+import {FC} from "react";
 import st from "./Dropdown.module.css"
 import {useSelector} from "react-redux";
 import {RootState} from "../../App/Redux/store.ts";
-
-export interface IDropdownProps {
-    header: string,
-    index: number,
-    children: ReactNode
-}
+import {IDropdownProps} from "./DropdownModel.ts";
 
 export const Dropdown: FC<IDropdownProps> = (props) => {
     const position = useSelector((state: RootState) => state.forms.position)

@@ -1,11 +1,9 @@
 import {ChangeEvent, FC, useEffect, useState} from 'react';
 import st from './EducationCard.module.css'
-import {projectDataType} from "../../features/AddProject/AddProject.tsx";
-import {educationDataType} from "../../features/AddEducation/AddEducation.tsx";
+import {IProjectData} from "../../features/AddProject/AddProject.tsx";
+import {IEducationData} from "../../features/AddEducation/AddEducation.tsx";
 
 export const EducationCard: FC<educationDataType> = (props) => {
-
-    debugger
 
     return (
         <>

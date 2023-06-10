@@ -1,0 +1,19 @@
+.listForm{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.bricksContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 350px;
+    gap: 8px;
+}
+
+.listFormContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

@@ -1,14 +1,12 @@
-import {useDispatch} from "react-redux";
 import {useState} from "react";
 import {Step} from "../../entities/Step/Step.tsx";
-import {LanguageForm, languageType} from "../../entities/LanguageForm/LanguageForm.tsx";
-import {changePosition, setLanguages} from "../../App/Redux/formsReducer.ts";
+import {LanguageForm} from "../../entities/LanguageForm/LanguageForm.tsx";
+import {languageType} from "../../entities/LanguageForm/LanguageFormModel.ts";
+import {useAddLanguages} from "./hooks/useAddLanguages.ts";
 
 export const AddLanguages = () => {
 
-    const dispatch = useDispatch()
-    const dChangePosition = (add: number) => dispatch(changePosition(add))
-    const dSetLanguages = (_data: languageType[]) => dispatch(setLanguages(_data))
+    const {dSetLanguages, dChangePosition} = useAddLanguages()
     const [_languages, _setLanguages] = useState<languageType[]>([])
 
     return(

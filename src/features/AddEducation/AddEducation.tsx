@@ -1,34 +1,22 @@
 import {FC, useState} from 'react';
 import {Form} from "../../entities/Form/Form.tsx";
-import {changePosition, setEducation} from "../../App/Redux/formsReducer.ts";
-import {useDispatch, useSelector} from "react-redux";
 import {EducationCard} from "../../entities/EducationCard/EducationCard.tsx";
 import {formatDateFromString} from "../utils.ts";
 import {Step} from "../../entities/Step/Step.tsx";
-import {RootState} from "../../App/Redux/store.ts";
+import {IEducationData} from "./AddEducationModel.ts";
+import {useAddEducation} from "./hooks/useAddEducation.ts";
 
-export type educationDataType = {
-    name: string,
-    start_date: string,
-    finish_date: string,
-    city: string,
-    caption: string,
-}
-
-// export type AddEducationPropsType = {
-// }
 export const AddEducation: FC = () => {
-    const [data, setData] = useState<educationDataType[]>([])
+    const [data, setData] = useState<IEducationData[]>([])
 
-    const dispatch = useDispatch()
-    const step = useSelector((state: RootState) => state.forms.forms[4])
+    const {step, dSetEducationData, dChangePosition} = useAddEducation()
 
     function saveData(){
-        dispatch(setEducation(data))
-        dispatch(changePosition(1))
+        dSetEducationData(data)
+        dChangePosition(1)
     }
 
-    function getFormData(_data: educationDataType){
+    function getFormData(_data: IEducationData){
         _data.start_date = formatDateFromString(_data.start_date)
         _data.finish_date = formatDateFromString(_data.finish_date)
         setData(prevState => [...prevState, _data])
