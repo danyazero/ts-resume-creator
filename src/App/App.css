@@ -30,3 +30,55 @@ input[type="month"]{
   cursor: pointer;
   border-radius: 3px;
 }
+
+.renderedWidget{
+  display: flex;
+  justify-content: center;
+  background: #656e83;
+
+  position: fixed;
+  right: 5px;
+  top: 5px;
+  height: 100%;
+  width: 45%;
+}
+
+
+
+
+
+
+.alert-enter {
+  opacity: 0;
+  transform: scaleY(0.9);
+}
+.alert-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transform: scaleY(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+

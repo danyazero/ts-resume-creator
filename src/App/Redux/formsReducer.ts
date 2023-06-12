@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PDFDocumentProps, projectsType} from "../../PdfConstructor/PDFView";
 import {IEducationData} from "../../features/AddEducation/AddEducationModel.ts";
-import {IAddLanguageProps, languageType} from "../../entities/LanguageForm/LanguageFormModel.ts";
+import {languageType} from "../../entities/LanguageForm/LanguageFormModel.ts";
 import {linkType} from "../../features/AddProject/AddProjectModel.ts";
 
 export interface IFormsSliceState {
@@ -19,6 +19,7 @@ export type inputFieldType = {
     name: string,
     type: string,
     accept?: string,
+    label: string,
     placeholder: string,
     required: boolean
 }
@@ -28,46 +29,45 @@ const initialState: IFormsSliceState = {
     forms: [
         {
             header: "Header Info", inputs: [
-                {name: "photo", type: "file", accept: "image/jpeg, image/jpg, image/png, image/gif", placeholder: "Choose your photo", required: false},
-                {name: "first_name", type: "text", placeholder: "Enter firstname", required: true},
-                {name: "last_name", type: "text", placeholder: "Enter lastname", required: true},
-                {name: "vacancy", type: "text", placeholder: "Enter vacancy", required: false}
+                {name: "first_name", label: "First Name", type: "text", placeholder: "Enter firstname", required: true},
+                {name: "last_name", label: "Last Name", type: "text", placeholder: "Enter lastname", required: true},
+                {name: "vacancy", label: "Wanted Job Title", type: "text", placeholder: "Enter vacancy", required: false}
             ]
         },
         {
             header: "Location Info", inputs: [
-                {name: "city", type: "text", placeholder: "Enter city", required: true},
-                {name: "country", type: "text", placeholder: "Enter country", required: true},
+                {name: "city", label: "City", type: "text", placeholder: "Enter city", required: true},
+                {name: "country", label: "Country", type: "text", placeholder: "Enter country", required: true},
             ]
         },
         {
             header: "Contact Info", inputs: [
-                {name: "phone", type: "tel", placeholder: "Enter phone", required: true},
-                {name: "email", type: "email", placeholder: "Enter email", required: true},
+                {name: "phone", label: "Phone", type: "tel", placeholder: "Enter phone", required: true},
+                {name: "email", label: "Email", type: "email", placeholder: "Enter email", required: true},
             ]
         },
         {
             header: "Projects", inputs: [
-                {name: "name", type: "text", placeholder: "Enter name", required: true},
-                {name: "start_date", type: "month", placeholder: "Enter start date", required: true},
-                {name: "finish_date", type: "month", placeholder: "Enter finish date", required: true},
-                {name: "caption", type: "text", placeholder: "Enter caption", required: false},
+                {name: "name", label: "Activity name, job title", type: "text", placeholder: "Enter name", required: true},
+                {name: "start_date", label: "Start Date", type: "month", placeholder: "Enter start date", required: true},
+                {name: "finish_date", label: "End Date", type: "month", placeholder: "Enter finish date", required: true},
+                {name: "caption", label: "Description", type: "text", placeholder: "Enter description", required: false},
             ]
         },
         {
             header: "Education", inputs: [
-                {name: "name", type: "text", placeholder: "Enter education name", required: true},
-                {name: "start_date", type: "month", placeholder: "Enter start date", required: true},
-                {name: "finish_date", type: "month", placeholder: "Enter finish date", required: true},
-                {name: "city", type: "text", placeholder: "Enter city", required: true},
-                {name: "caption", type: "text", placeholder: "Enter specialty", required: false},
+                {name: "name", label: "School & degree", type: "text", placeholder: "Enter school name & degree", required: true},
+                {name: "start_date", label: "Start Date", type: "month", placeholder: "Enter start date", required: true},
+                {name: "finish_date", label: "End Date", type: "month", placeholder: "Enter finish date", required: true},
+                {name: "city", label: "City", type: "text", placeholder: "Enter city", required: true},
+                {name: "caption", label: "Specialty", type: "text", placeholder: "Enter specialty", required: false},
             ]
         }
     ],
     resumeData: {
         first_name: "",
         last_name: "",
-        photo: [],
+        photo: "",
         vacancy: "",
         city: "",
         country: "",
@@ -91,11 +91,15 @@ export const formsReducer = createSlice({
         reducers: {
             setResumeData(state: IFormsSliceState,
                           actions: PayloadAction<
-                              { first_name: string, last_name: string, vacancy: string, photo: string }
+                              { first_name: string, last_name: string, vacancy: string}
                               | { city: string, country: string }
                               | { phone: string, email: string }>) {
-
                 Object.assign(state.resumeData, actions.payload)
+
+                return state;
+            },
+            setPhoto(state: IFormsSliceState, actions: PayloadAction<string>){
+                state.resumeData.photo = actions.payload
 
                 return state;
             },
@@ -136,4 +140,4 @@ export const formsReducer = createSlice({
     }
 )
 
-export const {setResumeData, setLanguages, setEducation, setStack, changePosition, setProjectData, setLinks} = formsReducer.actions
+export const {setResumeData, setPhoto, setLanguages, setEducation, setStack, changePosition, setProjectData, setLinks} = formsReducer.actions

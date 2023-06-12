@@ -3,7 +3,7 @@ import {changePosition, setStack} from "../../../App/Redux/formsReducer.ts";
 
 export interface IUseAddLanguages{
     dChangePosition(add: number): void,
-    dSetStack(_data: string[]): void
+    dSetStack(_data: string[]): void,
 }
 export const useAddStack = (): IUseAddLanguages => {
     const dispatch = useDispatch()

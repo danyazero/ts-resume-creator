@@ -1,9 +1,8 @@
-import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import st from './EducationCard.module.css'
-import {IProjectData} from "../../features/AddProject/AddProject.tsx";
-import {IEducationData} from "../../features/AddEducation/AddEducation.tsx";
+import {IEducationData} from "../../features/AddEducation/AddEducationModel.ts";
 
-export const EducationCard: FC<educationDataType> = (props) => {
+export const EducationCard: FC<IEducationData> = (props) => {
 
     return (
         <>

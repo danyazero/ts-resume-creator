@@ -1,8 +1,7 @@
-import {Canvas, Document, Image, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
-import {linkType} from "../entities/LinksForm/LinksForm.tsx";
-import {IProjectData} from "../features/AddProject/AddProject.tsx";
-import {languageType} from "../entities/LanguageForm/LanguageForm.tsx";
-import {IEducationData} from "../features/AddEducation/AddEducation.tsx";
+import {Document, Image, Link, Page, PDFViewer, StyleSheet, Text, View} from "@react-pdf/renderer";
+import {IProjectData, linkType} from "../features/AddProject/AddProjectModel.ts";
+import {languageType} from "../entities/LanguageForm/LanguageFormModel.ts";
+import {IEducationData} from "../features/AddEducation/AddEducationModel.ts";
 
 
 export type PDFDocumentProps = {
@@ -18,12 +17,12 @@ export type PDFDocumentProps = {
     stack: string[],
     projects: projectsType
     photo: any,
-    education: educationDataType[]
+    education: IEducationData[]
 }
 
 export type projectsType = {
     header: string,
-    array: projectDataType[]
+    array: IProjectData[]
 }
 
 function PDFView(props: { forms: PDFDocumentProps }) {
@@ -164,22 +163,24 @@ function PDFView(props: { forms: PDFDocumentProps }) {
     const langs = props.forms.langs.map((element, index) => <Text key={"language_" + index}
                                                                   style={styles.data}>{element.lang} - {element.level}</Text>)
 
-    function lineGenerator(xLength: number, yLength: number, depth: number, opacity: number) {
-
-        return (painterObject) => {
-            painterObject.save()
-            painterObject.moveTo(0, 0)
-            painterObject.lineTo(xLength, yLength)
-            painterObject.lineWidth(depth)
-            painterObject.strokeOpacity(opacity)
-            painterObject.stroke()
-        }
-    }
+    // function lineGenerator(xLength: number, yLength: number, depth: number, opacity: number) {
+    //
+    //     return (painterObject) => {
+    //         painterObject.save()
+    //         painterObject.moveTo(0, 0)
+    //         painterObject.lineTo(xLength, yLength)
+    //         painterObject.lineWidth(depth)
+    //         painterObject.strokeOpacity(opacity)
+    //         painterObject.stroke()
+    //     }
+    // }
 
     return (
         <div style={{position: "fixed", right: "5px", top: "5px", height: "100%"}}>
             <PDFViewer showToolbar={true} style={styles.viewer}>
-                <Document>
+                <Document title={"CV_Resume"}
+                          author={props.forms.first_name && (props.forms.first_name + "_" + props.forms.last_name)}
+                          keywords={"resume, cv, " + props.forms.first_name + ", " + props.forms.last_name}>
                     <Page size="A4" style={styles.page}>
 
                         {props.forms.first_name.length > 0 && <View style={styles.header}>
@@ -188,10 +189,8 @@ function PDFView(props: { forms: PDFDocumentProps }) {
                                 <Text style={styles.name}>{props.forms.last_name}</Text>
                                 <Text style={styles.vacancy}>{props.forms.vacancy}</Text>
                             </View>
-                            <Image style={styles.photo} src={props.forms.photo}/>
+                            {props.forms.photo.length > 0 && <Image style={styles.photo} src={props.forms.photo}/>}
                         </View>}
-                        <Canvas style={{width: "100%", height: "2pt", marginTop: '25pt'}}
-                                paint={lineGenerator(500, 0, 1, 0.1)}/>
 
                         <View style={styles.main}>
 
@@ -199,8 +198,6 @@ function PDFView(props: { forms: PDFDocumentProps }) {
 
                                 <View>
                                     <Text style={styles.blockName}>Details</Text>
-                                    <Canvas style={{width: "25pt", height: '2pt'}}
-                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                     {props.forms.city.length > 0 && <View>
                                         <Text style={styles.sectionName}>address</Text>
@@ -218,8 +215,6 @@ function PDFView(props: { forms: PDFDocumentProps }) {
 
                                     {props.forms.links.length > 0 && <View>
                                         <Text style={styles.blockName}>Links</Text>
-                                        <Canvas style={{width: "25pt", height: '2pt'}}
-                                                paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                         <View>
                                             {links}
@@ -228,8 +223,6 @@ function PDFView(props: { forms: PDFDocumentProps }) {
 
                                     {props.forms.stack.length > 0 && <View>
                                         <Text style={styles.blockName}>Skills</Text>
-                                        <Canvas style={{width: "25pt", height: '2pt'}}
-                                                paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                         <View style={styles.stack}>
                                             {stack}
@@ -242,24 +235,18 @@ function PDFView(props: { forms: PDFDocumentProps }) {
                             <View style={styles.mainSection}>
                                 {projects.length > 0 && <View>
                                     <Text style={styles.blockName}>{props.forms.projects.header.toUpperCase()}</Text>
-                                    <Canvas style={{width: "25pt", height: '2pt'}}
-                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                     {projects}
                                 </View>}
 
                                 {educations.length > 0 && <View>
                                     <Text style={styles.blockName}>Education</Text>
-                                    <Canvas style={{width: "25pt", height: '2pt'}}
-                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                     {educations}
                                 </View>}
 
                                 {langs.length > 0 && <View>
                                     <Text style={styles.blockName}>Languages</Text>
-                                    <Canvas style={{width: "25pt", height: '2pt'}}
-                                            paint={lineGenerator(25, 0, 2.5, 1.0)}/>
 
                                     <View style={styles.stack}>
                                         {langs}

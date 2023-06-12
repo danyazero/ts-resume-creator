@@ -2,5 +2,6 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    max-width: 400px;
     gap: 8px;
 }

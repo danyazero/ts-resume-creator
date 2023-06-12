@@ -8,6 +8,7 @@ export const LanguageForm: FC<IAddLanguageProps> = (props) => {
     const [level, setLevel] = useState<string>("")
 
     const onSubmit = () => {
+        console.log(lang, level)
         if (lang.length > 0) {
             props.languages.push({lang, level})
             setLang("")

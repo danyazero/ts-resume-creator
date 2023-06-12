@@ -11,6 +11,7 @@ export const Form: FC<IForm> = (props) => {
     const {register, handleSubmit, resetField, unregister} = useForm();
 
     const onSubmit = (data: any) => {
+        console.log(data)
         props.getData && props.getData(data)
 
         props.reset && props.step.inputs.forEach((element) => resetField(element.name))
@@ -18,8 +19,11 @@ export const Form: FC<IForm> = (props) => {
     }
 
     const inputs = props.step.inputs.map((element) =>
+        <label>
+            {element.label}
         <input key={"input_" + element.name} accept={element.accept && element.accept} type={element.type}
                placeholder={element.placeholder} {...register(element.name, {required: element.required})}/>
+        </label>
     )
 
     return (

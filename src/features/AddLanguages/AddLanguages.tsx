@@ -12,6 +12,7 @@ export const AddLanguages = () => {
     return(
         <>
             <Step onClick={() => {
+                console.log(_languages)
                 dSetLanguages(_languages)
                 dChangePosition(1)
             }} header={"Languages"}>

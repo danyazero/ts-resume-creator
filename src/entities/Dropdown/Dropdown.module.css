@@ -4,8 +4,8 @@
     padding: 15px;
     background: #323639;
     border-radius: 15px;
-    width: 450px;
     margin-bottom: 8px;
+    width: 40%;
 
     font-size: 24px;
     font-weight: bold;
@@ -13,13 +13,17 @@
 
 .items{
     padding: 15px;
-    width: 450px;
+    width: 40%;
     display: flex;
     flex-direction: column;
     gap: 8px;
     background: #323639;
     border-radius: 15px;
     margin-bottom: 15px;
+}
+
+.animate{
+    transition: background 4s ease-in;
 }
 
 .checkbox{
